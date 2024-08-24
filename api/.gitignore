@@ -1,3 +1,7 @@
+#dadabase
+.db
+.sqlite3
+
 #uploads folder
 uploads
 # Logs
