@@ -59,6 +59,8 @@ function CreatePost() {
     console.log(response);
   }
 
+  //  TODO: add URL validation
+
   return (
     <div className="createpost">
       <form className="createpost">
@@ -89,33 +91,41 @@ function CreatePost() {
         />
 
         {content.map((value, index) => (
-          <div key={index}>
-            <label htmlFor="name">name</label>
+          <div key={index} className="resourceContainer">
+            <label htmlFor="name" className="createpost">
+              name
+            </label>
             <input
               type="text"
               name="name"
+              className="resourceInput"
               value={value.name}
               onChange={(event) => handleNameChange(index, event)}
             />
 
-            <label htmlFor="link">link</label>
+            <label htmlFor="URL">URL</label>
             <input
               type="text"
-              name="link"
+              name="URL"
+              className="resourceInput"
               value={value.link}
               onChange={(event) => handleLinkChange(index, event)}
             />
 
-            <button type="button" onClick={() => handleRemove(index)}>
+            <button
+              type="button"
+              className="resourceDelete"
+              onClick={() => handleRemove(index)}
+            >
               Delete
             </button>
           </div>
         ))}
 
-        <button type="button" onClick={handleAdd}>
+        <button type="button" className="createpost" onClick={handleAdd}>
           Add
         </button>
-        <button type="button" onClick={handleSubmit}>
+        <button type="button" className="createpost" onClick={handleSubmit}>
           submit
         </button>
       </form>
