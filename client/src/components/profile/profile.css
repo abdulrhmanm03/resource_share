@@ -1,0 +1,103 @@
+.profile{
+    width: 60%;
+    min-width: 800px;
+    margin: 50px auto;
+    border-radius: 20px;
+    padding: 50px 30px;
+    border: 1px solid burlywood;
+    display: flex;
+    align-items: center;
+}
+
+.left{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+}
+
+.profileImg{
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+}
+
+.right{
+    height: 90%;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.bio{
+    padding: 15px;
+    height: 180px;
+    background-color: aqua;
+}
+.extra{
+    display: flex;
+}
+
+.e{
+    padding: 20px;
+}
+
+
+.profileimgcontainer{
+    background-color: aqua;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    position: relative; /* Make the container a positioning context */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Ensure any overflowing content is hidden */
+}
+
+.profileImg{
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    object-fit: cover; /* Ensure the image covers the container */
+    
+}
+
+.de{
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+    z-index: 2; /* Ensure it is above the image */
+    position: absolute; /* Position it absolutely within the container */
+    background-color: rgba(255, 255, 255, 0.2); /* Optional: Add a semi-transparent background to highlight text */
+}
+.d{
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+    z-index: 3; /* Ensure it is above the image */
+    position: absolute; /* Position it absolutely within the container */
+    opacity: 0;
+}
+
+.d:hover{
+    cursor: pointer;
+}
+
+.editbio{
+    height: 90%;
+    width: 500px;
+    background-color: aqua;
+    border: none;
+}
+.editbio:focus{
+    outline: none;
+}

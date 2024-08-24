@@ -1,0 +1,46 @@
+ul.post{
+    display: flex;
+    flex-direction: column-reverse;
+    list-style: none;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+
+li.post{
+    display: flex;
+    flex-direction: column;
+    background-color: blanchedalmond;
+    border: 1px solid burlywood;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    width: 90%;
+    max-width: 1000px;
+    border-radius: 20px;
+    padding: 30px 10px;
+}
+
+.posttitle{
+    margin: 5px 30px;
+}
+
+hr.post{
+    color: burlywood;
+    background-color: burlywood;
+    width: 90%;
+    height: 1px;
+    border: burlywood;
+    margin-bottom: 30px;
+}
+
+.posttopics{
+    margin: 5px 40px;
+}
+
+.postlikes{
+    margin: 10px;
+    margin-bottom: 0;
+    margin-left: auto;
+}
