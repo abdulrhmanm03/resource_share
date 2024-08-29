@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./createpost.css";
 
 function CreatePost() {
+  const navigateTo = useNavigate();
+
   const [title, setTitle] = useState("");
   const [topics, setTopics] = useState([""]);
   const [content, setContent] = useState([{ name: "", link: "" }]);
@@ -57,6 +60,7 @@ function CreatePost() {
       alert("postcreated");
     }
     console.log(response);
+    navigateTo("/");
   }
 
   //  TODO: add URL validation
