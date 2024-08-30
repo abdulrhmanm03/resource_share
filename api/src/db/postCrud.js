@@ -1,5 +1,10 @@
 import dbOps from "./dbOps.js";
 
+export async function getPost(post_id) {
+  const query = `SELECT * FROM posts WHERE id = ?`;
+
+  return await dbOps.get(query, [post_id]);
+}
 export async function getUserPosts(username) {
   const query = `SELECT p.*
         FROM posts p
