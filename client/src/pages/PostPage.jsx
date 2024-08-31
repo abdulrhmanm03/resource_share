@@ -1,4 +1,3 @@
-import Navbar from "../components/Navbar/Navbar";
 import FullPost from "../components/FullPost/FullPost";
 import { useParams } from "react-router-dom";
 
@@ -7,7 +6,6 @@ export default function PostPage() {
 
   return (
     <>
-      <Navbar />
       <FullPost post_id={post_id} />
     </>
   );
