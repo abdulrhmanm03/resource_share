@@ -1,7 +1,22 @@
 import dbOps from "./dbOps.js";
 
 export async function getPost(post_id) {
-  const query = `SELECT * FROM posts WHERE id = ?`;
+  const query = `
+    SELECT 
+      p.*, 
+      u.username, 
+      GROUP_CONCAT(t.topic,', ') AS topics
+    FROM 
+      posts p
+    LEFT JOIN 
+      topics t ON p.id = t.post_id
+    JOIN 
+      users u ON p.user_id = u.id
+    WHERE 
+      p.id = ? 
+    GROUP BY 
+      p.id, u.username
+  `;
 
   return await dbOps.get(query, [post_id]);
 }
