@@ -1,7 +1,15 @@
+import { useEffect, useState } from "react";
 import "./Navbar.css";
 import { NavLink } from "react-router-dom";
 
+// TODO: get user states
 function Navbar() {
+  const [isRegistered, setIsRegistered] = useState(false);
+  useEffect(() => {
+    async function isRegistered() {
+      const response = fetch();
+    }
+  });
   return (
     <nav>
       <img src="/logo.png" alt="logo" className="logo" />
