@@ -1,32 +1,25 @@
 import "./profile.css";
 import { useState, useEffect } from "react";
+import { useRegistration } from "../../context/RegistrationContext";
 
 function Profile() {
-  const [userId, setUserId] = useState(null);
+  const { user } = useRegistration();
 
-  const [username, setUsername] = useState("");
   const [image, setImage] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [oldImage, setOldImage] = useState("");
   const [bio, setBio] = useState("");
 
-  const [editMode, setEditMode] = useState(false);
-
   useEffect(() => {
-    async function fetchData() {
-      const response = await fetch("http://localhost:3001/getuser/yawda");
-      const user = await response.json();
-      const { id, username, image, bio } = user;
-
-      setUserId(id);
-      setUsername(username);
-      setImage(image);
-      setImageURL(`http://localhost:3001/uploads/${image}`);
-      setBio(bio);
+    if (user) {
+      setImage(user.image);
+      setImageURL(`http://localhost:3001/uploads/${user.image}`);
+      setBio(user.bio);
     }
+  }, [user]);
 
-    fetchData();
-  }, []);
+  const username = user.username;
+  const [editMode, setEditMode] = useState(false);
 
   const handleTextChange = (e) => {
     setBio(e.target.value);
@@ -41,10 +34,9 @@ function Profile() {
     }
   };
 
-  // TODO: send the jwt token with the request
   const handleUpdateProfileSubmit = async () => {
     const formData = new FormData();
-    formData.append("user_id", userId);
+    formData.append("user_id", user.id);
     formData.append("bio", bio);
     formData.append("oldImage", oldImage);
     formData.append("image", image);
@@ -114,4 +106,3 @@ function Profile() {
 }
 
 export default Profile;
-

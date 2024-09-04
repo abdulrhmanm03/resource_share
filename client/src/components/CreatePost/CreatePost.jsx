@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./createpost.css";
+import { useRegistration } from "../../context/RegistrationContext";
 
 function CreatePost() {
   const navigateTo = useNavigate();
+  const { user } = useRegistration();
 
   const [title, setTitle] = useState("");
   const [topics, setTopics] = useState([""]);
@@ -43,11 +45,10 @@ function CreatePost() {
     }
     let contentJson = JSON.stringify(c);
 
-    // const token = localStorage.getItem("token");
     console.log(topics);
 
     const formData = new FormData();
-    formData.append("user_id", 1);
+    formData.append("user_id", user.id);
     formData.append("title", title);
     formData.append("topics", topics);
     formData.append("content", contentJson);

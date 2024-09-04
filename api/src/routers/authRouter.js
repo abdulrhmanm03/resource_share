@@ -32,7 +32,6 @@ authRouter.post("/login", async (req, res) => {
 });
 
 authRouter.get("/getUser", authenticateJWT, async (req, res) => {
-  // console.log(req.user);
   const user = await getUserByUsername(req.user.username);
 
   if (!user) {
