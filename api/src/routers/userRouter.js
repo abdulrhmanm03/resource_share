@@ -63,4 +63,3 @@ userRouter.post("/updateprofile", async (req, res) => {
 });
 
 export default userRouter;
-
