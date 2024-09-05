@@ -1,4 +1,4 @@
-import FullPost from "../components/FullPost/FullPost";
+import FullPost from "../components/Post/FullPost";
 import { useParams } from "react-router-dom";
 
 export default function PostPage() {

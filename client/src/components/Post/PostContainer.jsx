@@ -1,19 +1,9 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Post.css";
+import "./PostContainer.css";
 
-function Post() {
-  const [posts, setPosts] = useState({});
+// TODO: add prop validation
+function PostContainer({ posts }) {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    async function getposts() {
-      const response = await fetch(`http://localhost:3001/getPosts`);
-      setPosts(await response.json());
-    }
-
-    getposts();
-  }, []);
 
   function openPost(post_id) {
     navigate(`/post/${post_id}`);
@@ -38,4 +28,4 @@ function Post() {
   );
 }
 
-export default Post;
+export default PostContainer;

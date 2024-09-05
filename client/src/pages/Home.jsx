@@ -1,9 +1,9 @@
-import Post from "../components/Post/Post";
+import FetchPosts from "../components/Post/FetchPosts";
 
 function Home() {
   return (
     <>
-      <Post />
+      <FetchPosts />
     </>
   );
 }

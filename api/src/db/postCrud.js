@@ -21,10 +21,12 @@ export async function getPost(post_id) {
   return await dbOps.get(query, [post_id]);
 }
 export async function getUserPosts(username) {
-  const query = `SELECT p.*
-        FROM posts p
-        JOIN users u ON p.user_id = u.id
-        WHERE u.username = ?`;
+  const query = `SELECT p.id, p.title,GROUP_CONCAT(t.topic, ', ') AS topics
+      FROM posts p
+      JOIN users u ON p.user_id = u.id
+      LEFT JOIN topics t ON p.id = t.post_id
+      WHERE u.username = ?
+      GROUP BY p.id, p.title`;
 
   return await dbOps.getAll(query, [username]);
 }

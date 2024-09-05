@@ -1,5 +1,10 @@
 import express from "express";
-import { createPost, getPost, getPostsWithTopics } from "../db/postCrud.js";
+import {
+  createPost,
+  getPost,
+  getPostsWithTopics,
+  getUserPosts,
+} from "../db/postCrud.js";
 import { stringToWords } from "../utils/utils.js";
 // import authenticateJWT from "../middleware/authenticateJWT.js";
 
@@ -35,6 +40,13 @@ postRouter.get("/getPosts", async (req, res) => {
   } catch (err) {
     res.status(500).send(err);
   }
+});
+
+postRouter.get("/getUserPosts/:username", async (req, res) => {
+  const username = req.params.username;
+  const posts = await getUserPosts(username);
+  console.log(posts);
+  res.json(posts);
 });
 
 export default postRouter;
