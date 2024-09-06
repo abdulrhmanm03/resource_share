@@ -35,6 +35,7 @@ function Profile() {
   };
 
   const handleUpdateProfileSubmit = async () => {
+    console.log(typeof user.id);
     const formData = new FormData();
     formData.append("user_id", user.id);
     formData.append("bio", bio);
@@ -43,7 +44,7 @@ function Profile() {
 
     // Replace with your own API endpoint or destination
     const response = await fetch("http://localhost:3001/updateprofile", {
-      method: "POST",
+      method: "PUT",
       body: formData,
     });
 
@@ -74,7 +75,7 @@ function Profile() {
             <textarea
               className="editbio"
               onChange={handleTextChange}
-              value={bio || "love"}
+              value={bio || ""}
             ></textarea>
           ) : (
             <p>{bio}</p>

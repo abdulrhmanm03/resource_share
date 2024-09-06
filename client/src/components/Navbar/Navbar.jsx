@@ -1,11 +1,15 @@
 import "./Navbar.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { useRegistration } from "../../context/RegistrationContext";
 
 // TODO: get user states
 function Navbar() {
   const { isRegistered } = useRegistration();
   console.log(isRegistered);
+  function handleSignOut() {
+    localStorage.removeItem("token");
+    window.location.reload();
+  }
   return (
     <nav>
       <img src="/logo.png" alt="logo" className="logo" />
@@ -34,6 +38,11 @@ function Navbar() {
               <NavLink className="link nav" to="/createPost">
                 Create post
               </NavLink>
+            </li>
+            <li className="nav" onClick={() => handleSignOut()}>
+              <Link className="link nav" to="/">
+                Sign Out
+              </Link>
             </li>
           </>
         )}
