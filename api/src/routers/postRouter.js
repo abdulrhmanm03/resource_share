@@ -45,7 +45,6 @@ postRouter.get("/getPosts", async (req, res) => {
 postRouter.get("/getUserPosts/:username", async (req, res) => {
   const username = req.params.username;
   const posts = await getUserPosts(username);
-  console.log(posts);
   res.json(posts);
 });
 

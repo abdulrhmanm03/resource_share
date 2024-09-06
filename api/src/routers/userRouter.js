@@ -30,8 +30,10 @@ userRouter.get("/getFollowData/:username", async (req, res) => {
 });
 
 // TODO: authanticate user before allowing him to update a profile
-userRouter.post("/updateprofile", async (req, res) => {
+// BUG: user can't update bio without updating the image
+userRouter.put("/updateprofile", async (req, res) => {
   const { user_id, bio, oldImage } = req.body;
+  console.log(bio);
 
   if (!req.files || !req.files.image || !user_id) {
     return res.status(400).send("No file uploaded.");
@@ -51,10 +53,10 @@ userRouter.post("/updateprofile", async (req, res) => {
   });
 
   try {
-    await updateImage(image.name, user_id);
-
-    await updateBio(bio, user_id);
-
+    await Promise.all([
+      updateImage(image.name, user_id),
+      updateBio(bio, user_id),
+    ]);
     res.send("File uploaded!");
   } catch (err) {
     console.log(err);
