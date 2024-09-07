@@ -36,14 +36,16 @@ export async function getPostsWithTopics() {
     SELECT 
       p.id, 
       p.title, 
+      u.username,
       GROUP_CONCAT(t.topic, ', ') AS topics
     FROM 
       posts p
     LEFT JOIN 
       topics t ON p.id = t.post_id
+    LEFT JOIN
+      users u ON p.user_id = u.id
     GROUP BY 
-      p.id, p.title
-  `;
+      p.id, p.title, u.username;  `;
   return await dbOps.getAll(query, []);
 }
 
