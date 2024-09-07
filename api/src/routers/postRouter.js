@@ -2,8 +2,10 @@ import express from "express";
 import {
   createPost,
   getPost,
-  getPostsWithTopics,
+  getPostsMeta,
   getUserPosts,
+  like,
+  unLike,
 } from "../db/postCrud.js";
 import { stringToWords } from "../utils/utils.js";
 // import authenticateJWT from "../middleware/authenticateJWT.js";
@@ -35,7 +37,7 @@ postRouter.post("/createPost", async (req, res) => {
 
 postRouter.get("/getPosts", async (req, res) => {
   try {
-    const postsWithTopics = await getPostsWithTopics();
+    const postsWithTopics = await getPostsMeta();
     res.json(postsWithTopics);
   } catch (err) {
     res.status(500).send(err);
@@ -46,6 +48,17 @@ postRouter.get("/getUserPosts/:username", async (req, res) => {
   const username = req.params.username;
   const posts = await getUserPosts(username);
   res.json(posts);
+});
+
+postRouter.post("/toggleLike", async (req, res) => {
+  const { user_id, post_id, is_liked } = req.body;
+  if (is_liked) {
+    await unLike(user_id, post_id);
+    res.send("post unliked");
+  } else {
+    await like(user_id, post_id);
+    res.send("post liked");
+  }
 });
 
 export default postRouter;

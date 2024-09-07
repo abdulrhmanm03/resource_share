@@ -1,5 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./PostContainer.css";
+import LikeButton from "./LikeButton";
 
 // TODO: add prop validation
 function PostContainer({ posts }) {
@@ -34,6 +35,7 @@ function PostContainer({ posts }) {
             </div>
             <hr className="post" />
             <p className="posttopics">{posts[i].topics}</p>
+            <LikeButton post={posts[i]} />
           </li>
         ))}
       </ul>

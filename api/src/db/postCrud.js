@@ -21,31 +21,50 @@ export async function getPost(post_id) {
   return await dbOps.get(query, [post_id]);
 }
 export async function getUserPosts(username) {
-  const query = `SELECT p.id, p.title,GROUP_CONCAT(t.topic, ', ') AS topics
-      FROM posts p
-      JOIN users u ON p.user_id = u.id
-      LEFT JOIN topics t ON p.id = t.post_id
-      WHERE u.username = ?
-      GROUP BY p.id, p.title`;
+  const query = `
+    SELECT 
+      p.id, 
+      p.title, 
+      (SELECT GROUP_CONCAT(DISTINCT t.topic ORDER BY t.topic ASC, ', ')
+       FROM topics t WHERE t.post_id = p.id) AS topics,
+      COUNT(DISTINCT l.user_id) AS like_count,
+      GROUP_CONCAT(DISTINCT lu.username ORDER BY lu.username ASC, ', ') AS liked_by
+    FROM 
+      posts p
+    JOIN 
+      users u ON p.user_id = u.id
+    LEFT JOIN 
+      likes l ON p.id = l.post_id
+    LEFT JOIN 
+      users lu ON l.user_id = lu.id
+    WHERE 
+      u.username = ?
+    GROUP BY 
+      p.id, p.title`;
 
   return await dbOps.getAll(query, [username]);
 }
 
-export async function getPostsWithTopics() {
+export async function getPostsMeta() {
   const query = `
     SELECT 
       p.id, 
       p.title, 
       u.username,
-      GROUP_CONCAT(t.topic, ', ') AS topics
+      (SELECT GROUP_CONCAT(DISTINCT t.topic ORDER BY t.topic ASC, ', ')
+       FROM topics t WHERE t.post_id = p.id) AS topics,
+      COUNT(DISTINCT l.user_id) AS like_count,
+      GROUP_CONCAT(DISTINCT lu.username ORDER BY lu.username ASC, ', ') AS liked_by
     FROM 
       posts p
     LEFT JOIN 
-      topics t ON p.id = t.post_id
-    LEFT JOIN
       users u ON p.user_id = u.id
+    LEFT JOIN 
+      likes l ON p.id = l.post_id
+    LEFT JOIN
+      users lu ON l.user_id = lu.id
     GROUP BY 
-      p.id, p.title, u.username;  `;
+      p.id, p.title, u.username `;
   return await dbOps.getAll(query, []);
 }
 
@@ -104,7 +123,7 @@ export async function getPostLikesCount(post_id) {
   return dbOps.get(query, [post_id]);
 }
 
-export async function like(post_id, user_id) {
+export async function like(user_id, post_id) {
   const query = `INSERT INTO likes (post_id, user_id) VALUES (?, ?)`;
 
   return await dbOps.run(query, [post_id, user_id]);

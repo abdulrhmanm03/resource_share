@@ -7,7 +7,9 @@ export default function FetchPosts() {
   useEffect(() => {
     async function getposts() {
       const response = await fetch(`http://localhost:3001/getPosts`);
-      setPosts(await response.json());
+      const res = await response.json();
+      setPosts(res);
+      console.log(res);
     }
 
     getposts();
