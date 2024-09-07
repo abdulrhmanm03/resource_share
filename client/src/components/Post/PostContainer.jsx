@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./PostContainer.css";
 
 // TODO: add prop validation
@@ -7,6 +7,11 @@ function PostContainer({ posts }) {
 
   function openPost(post_id) {
     navigate(`/post/${post_id}`);
+  }
+
+  function goToUser(e, username) {
+    e.stopPropagation();
+    navigate(`/user/${username}`);
   }
 
   return (
@@ -18,7 +23,15 @@ function PostContainer({ posts }) {
             key={posts[i].id}
             onClick={() => openPost(posts[i].id)}
           >
-            <h1 className="posttitle">{posts[i].title}</h1>
+            <div>
+              <h1 className="posttitle">{posts[i].title}</h1>
+              <p
+                className="postusername"
+                onClick={(e) => goToUser(e, posts[i].username)}
+              >
+                {posts[i].username}
+              </p>
+            </div>
             <hr className="post" />
             <p className="posttopics">{posts[i].topics}</p>
           </li>

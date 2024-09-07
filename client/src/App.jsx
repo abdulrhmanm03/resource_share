@@ -14,7 +14,7 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/user/:username" element={<ProfilePage />} />
           <Route path="/Auth" element={<AuthPage />} />
           <Route path="/createPost" element={<CreatePostPage />} />
           <Route path="//post/:post_id" element={<PostPage />} />

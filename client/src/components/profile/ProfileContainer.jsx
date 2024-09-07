@@ -1,45 +1,29 @@
-import "./profile.css";
-import { useState, useEffect } from "react";
-import { useRegistration } from "../../context/RegistrationContext";
+import { useState } from "react";
 
-function Profile() {
-  const { user } = useRegistration();
-
-  const [image, setImage] = useState("");
-  const [imageURL, setImageURL] = useState("");
-  const [oldImage, setOldImage] = useState("");
-  const [bio, setBio] = useState("");
-
-  useEffect(() => {
-    if (user) {
-      setImage(user.image);
-      setImageURL(`http://localhost:3001/uploads/${user.image}`);
-      setBio(user.bio);
-    }
-  }, [user]);
-
-  const username = user.username;
+export default function ProfileContainer({ userData }) {
   const [editMode, setEditMode] = useState(false);
 
+  const [oldImage, setOldImage] = useState("");
+
   const handleTextChange = (e) => {
-    setBio(e.target.value);
+    userData.setBio(e.target.value);
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setOldImage(image.name || image);
-      setImage(file);
-      setImageURL(URL.createObjectURL(file));
+      setOldImage(userData.image.name || userData.image);
+      userData.setImage(file);
+      userData.setImageURL(URL.createObjectURL(file));
     }
   };
 
   const handleUpdateProfileSubmit = async () => {
     const formData = new FormData();
-    formData.append("user_id", user.id);
-    formData.append("bio", bio);
+    formData.append("user_id", userData.id);
+    formData.append("bio", userData.bio);
     formData.append("oldImage", oldImage);
-    formData.append("image", image);
+    formData.append("image", userData.image);
 
     // Replace with your own API endpoint or destination
     const response = await fetch("http://localhost:3001/updateprofile", {
@@ -57,7 +41,7 @@ function Profile() {
     <div className="profile">
       <div className="left">
         <div className="profileimgcontainer">
-          <img src={imageURL} alt="" className="profileImg" />
+          <img src={userData.imageURL} alt="" className="profileImg" />
 
           {editMode && (
             <>
@@ -66,7 +50,7 @@ function Profile() {
             </>
           )}
         </div>
-        <h2 className="username">{username}</h2>
+        <h2 className="username">{userData.username}</h2>
       </div>
       <div className="right">
         <div className="bio">
@@ -74,10 +58,10 @@ function Profile() {
             <textarea
               className="editbio"
               onChange={handleTextChange}
-              value={bio || ""}
+              value={userData.bio || ""}
             ></textarea>
           ) : (
-            <p>{bio}</p>
+            <p>{userData.bio}</p>
           )}
         </div>
         <div className="extra">
@@ -104,5 +88,3 @@ function Profile() {
     </div>
   );
 }
-
-export default Profile;

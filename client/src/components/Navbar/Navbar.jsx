@@ -5,6 +5,8 @@ import { useRegistration } from "../../context/RegistrationContext";
 // TODO: get user states
 function Navbar() {
   const { isRegistered } = useRegistration();
+  const { user } = useRegistration();
+  const username = user.username;
   console.log(isRegistered);
   function handleSignOut() {
     localStorage.removeItem("token");
@@ -12,14 +14,11 @@ function Navbar() {
   }
   return (
     <nav>
-      <img src="/logo.png" alt="logo" className="logo" />
+      <Link to="/">
+        <img src="/logo.png" alt="logo" className="logo" />
+      </Link>
 
       <ul className="nav">
-        <li className="nav">
-          <NavLink className="link nav" to="/">
-            Home
-          </NavLink>
-        </li>
         {!isRegistered && (
           <li className="nav">
             <NavLink className="link nav" to="/auth">
@@ -30,7 +29,7 @@ function Navbar() {
         {isRegistered && (
           <>
             <li className="nav">
-              <NavLink className="link nav" to="/profile">
+              <NavLink className="link nav" to={`/user/${username}`}>
                 Profile
               </NavLink>
             </li>

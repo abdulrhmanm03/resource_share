@@ -1,14 +1,15 @@
 import Profile from "../components/profile/profile";
 import FetchUserPosts from "../components/Post/FetchUserPosts";
-import { useRegistration } from "../context/RegistrationContext";
+import { useParams } from "react-router-dom";
+import GetUserProfile from "../components/profile/GetUserProfile";
 
 function ProfilePage() {
-  const { user } = useRegistration();
-  const username = user.username;
+  const { username } = useParams();
 
   return (
     <>
-      <Profile />
+      {/* <Profile /> */}
+      <GetUserProfile username={username} />
       {username && <FetchUserPosts username={username} />}
     </>
   );
