@@ -9,6 +9,7 @@
 
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import DeletePostButton from "./DeletePostButton";
 
 export default function FullPost({ post_id }) {
   const [title, setTitle] = useState("");
@@ -43,6 +44,7 @@ export default function FullPost({ post_id }) {
           </li>
         ))}
       </ul>
+      <DeletePostButton post_id={post_id} />
     </div>
   );
 }

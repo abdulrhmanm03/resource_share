@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createPost,
+  deletePost,
   getPost,
   getPostsMeta,
   getUserPosts,
@@ -32,6 +33,20 @@ postRouter.post("/createPost", async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send(err);
+  }
+});
+
+postRouter.delete("/deletePost", async (req, res) => {
+  const { post_id } = req.body;
+  console.log(post_id);
+
+  try {
+    await deletePost(post_id);
+
+    res.send("Post deleted");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.message);
   }
 });
 
