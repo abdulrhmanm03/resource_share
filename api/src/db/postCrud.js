@@ -134,3 +134,14 @@ export async function unLike(user_id, post_id) {
 
   return await dbOps.run(query, [post_id, user_id]);
 }
+
+export async function getUserPostCount(username) {
+  const query = `
+    SELECT COUNT(p.id) AS post_count
+    FROM users u
+    JOIN posts p ON u.id = p.user_id
+    WHERE u.username = ?
+    GROUP BY u.username`;
+
+  return await dbOps.get(query, [username]);
+}

@@ -1,7 +1,10 @@
 import express from "express";
 import {
+  follow,
   getFollowData,
   getUserByUsername,
+  isFollowing,
+  unFollow,
   updateBio,
   updateImage,
 } from "../db/userCrud.js";
@@ -27,6 +30,36 @@ userRouter.get("/getFollowData/:username", async (req, res) => {
   const username = req.params.username;
   const follow_data = await getFollowData(username);
   res.json(follow_data);
+});
+
+userRouter.get("/isFollowing", async (req, res) => {
+  const { user1, user2 } = req.query;
+  console.log(user1, user2, typeof user1);
+
+  try {
+    const following = await isFollowing(user1, user2);
+    console.log(following);
+    res.json(following);
+  } catch (err) {
+    console.log(err);
+    res.status(500);
+  }
+});
+
+userRouter.post("/toggleFollow", async (req, res) => {
+  const { user1, user2, isFollowing } = req.body;
+
+  try {
+    if (isFollowing) {
+      await unFollow(user1, user2);
+    } else {
+      await follow(user1, user2);
+    }
+    res.send("success");
+  } catch (err) {
+    console.log(err);
+    res.status(500);
+  }
 });
 
 // TODO: authanticate user before allowing him to update a profile

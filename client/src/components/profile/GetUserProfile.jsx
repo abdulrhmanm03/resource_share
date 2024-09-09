@@ -26,6 +26,7 @@ export default function GetUserProfile({ username }) {
       setImage(user.image);
       setImageURL(`http://localhost:3001/uploads/${user.image}`);
       setBio(user.bio);
+      setId(user.id);
     } else {
       fetchData();
     }

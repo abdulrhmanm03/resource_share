@@ -4,11 +4,13 @@ import {
   deletePost,
   getPost,
   getPostsMeta,
+  getUserPostCount,
   getUserPosts,
   like,
   unLike,
 } from "../db/postCrud.js";
 import { stringToWords } from "../utils/utils.js";
+import { getFollowData } from "../db/userCrud.js";
 // import authenticateJWT from "../middleware/authenticateJWT.js";
 
 const postRouter = express.Router();
@@ -63,6 +65,28 @@ postRouter.get("/getUserPosts/:username", async (req, res) => {
   const username = req.params.username;
   const posts = await getUserPosts(username);
   res.json(posts);
+});
+
+postRouter.get("/getFollowData/:username", async (req, res) => {
+  const username = req.params.username;
+  try {
+    const followData = await getFollowData(username);
+    res.json(followData);
+  } catch (err) {
+    console.log(err);
+    res.status(500);
+  }
+});
+
+postRouter.get("/getPostCount/:username", async (req, res) => {
+  const username = req.params.username;
+  try {
+    const post_count = await getUserPostCount(username);
+    res.json(post_count);
+  } catch (err) {
+    console.log(err);
+    res.status(500);
+  }
 });
 
 postRouter.post("/toggleLike", async (req, res) => {

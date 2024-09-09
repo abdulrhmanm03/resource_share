@@ -35,8 +35,8 @@ export async function getAllUsers() {
 export async function getFollowData(username) {
   const query = `
       SELECT 
-        (SELECT COUNT(*) FROM follows WHERE follower_user_id = u.id) AS follows,
-        (SELECT COUNT(*) FROM follows WHERE followed_user_id = u.id) AS followed
+        (SELECT COUNT(*) FROM follows WHERE follows_id = u.id) AS numFollows,
+        (SELECT COUNT(*) FROM follows WHERE followed_id = u.id) AS numFollowers
       FROM users u 
       WHERE u.username = ?`;
 
@@ -76,9 +76,14 @@ export async function unFollow(follows_id, followed_id) {
   return await dbOps.run(query, [follows_id, followed_id]);
 }
 
-// TODO
+export async function isFollowing(user1, user2) {
+  const query = `
+    SELECT EXISTS (
+        SELECT 1 
+        FROM follows 
+        WHERE follows_id = ? 
+        AND followed_id = ?
+    ) AS isFollowing`;
 
-// export function getUserLikesCount(username){}
-
-// export function getUserLikedCount(username){}
-
+  return await dbOps.get(query, [user1, user2]);
+}
