@@ -32,7 +32,8 @@ export default function FollowButton({
     getIsFollowing();
   }, [user, userData]);
 
-  async function toggleFollow() {
+  async function toggleFollow(e) {
+    e.stopPropagation();
     const responce = await fetch(`http://localhost:3001/toggleFollow`, {
       method: "POST",
       headers: {
