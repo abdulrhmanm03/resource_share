@@ -7,6 +7,7 @@ import {
   getUserPostCount,
   getUserPosts,
   like,
+  searchPosts,
   unLike,
 } from "../db/postCrud.js";
 import { stringToWords } from "../utils/utils.js";
@@ -67,6 +68,18 @@ postRouter.get("/getUserPosts/:username", async (req, res) => {
   res.json(posts);
 });
 
+postRouter.get("/searchPost/:query", async (req, res) => {
+  const query = req.params.query;
+  try {
+    const results = await searchPosts(query);
+    res.json(results);
+  } catch (err) {
+    console.log(err);
+    res.status(500);
+  }
+});
+
+// TODO: move this to the user router how did it come here
 postRouter.get("/getFollowData/:username", async (req, res) => {
   const username = req.params.username;
   try {

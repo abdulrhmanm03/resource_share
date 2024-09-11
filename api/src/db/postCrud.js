@@ -68,6 +68,38 @@ export async function getPostsMeta() {
   return await dbOps.getAll(query, []);
 }
 
+export async function searchPosts(search) {
+  const query = `
+    SELECT 
+      p.id, 
+      p.title, 
+      u.username,
+      (SELECT GROUP_CONCAT(DISTINCT t.topic ORDER BY t.topic ASC , ', ')
+       FROM topics t WHERE t.post_id = p.id) AS topics,
+      COUNT(DISTINCT l.user_id) AS like_count,
+      GROUP_CONCAT(DISTINCT lu.username ORDER BY lu.username ASC , ', ') AS liked_by
+    FROM 
+      posts p
+    LEFT JOIN 
+      users u ON p.user_id = u.id
+    LEFT JOIN 
+      likes l ON p.id = l.post_id
+    LEFT JOIN
+      users lu ON l.user_id = lu.id
+    LEFT JOIN
+      topics t ON t.post_id = p.id  -- Add a join for topics here
+    WHERE 
+      u.username = ?
+    OR
+      t.topic = ?
+    OR 
+      p.title = ?
+    GROUP BY 
+      p.id, p.title, u.username`;
+
+  return await dbOps.getAll(query, [search, search, search]);
+}
+
 export async function createPost(user_id, title, topics, content) {
   const createPostQuery = `INSERT INTO posts (user_id, title, content) VALUES (?, ?, ?)`;
   const addTopicsQuery = `INSERT INTO topics (post_id, topic) VALUES (?, ?)`;
