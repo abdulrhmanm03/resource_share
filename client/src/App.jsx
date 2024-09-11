@@ -7,6 +7,8 @@ import CreatePostPage from "./pages/CreatePostPage";
 import PostPage from "./pages/PostPage";
 import Layout from "./pages/Layout";
 import { RegistrationProvider } from "./context/RegistrationContext";
+import FollowersPage from "./pages/FollowersPage";
+import FollowingPage from "./pages/FollowingPage";
 
 function App() {
   return (
@@ -17,7 +19,9 @@ function App() {
           <Route path="/user/:username" element={<ProfilePage />} />
           <Route path="/Auth" element={<AuthPage />} />
           <Route path="/createPost" element={<CreatePostPage />} />
-          <Route path="//post/:post_id" element={<PostPage />} />
+          <Route path="/post/:post_id" element={<PostPage />} />
+          <Route path="/:username/followers" element={<FollowersPage />} />
+          <Route path="/:username/following" element={<FollowingPage />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </Layout>

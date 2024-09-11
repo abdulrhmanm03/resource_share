@@ -41,10 +41,12 @@ export default function FollowButton({
       body: JSON.stringify({ user1: user.id, user2: userData.id, isFollowing }),
     });
     if (responce.ok) {
-      if (isFollowing) {
-        setNumFollowers(numFollowers - 1);
-      } else {
-        setNumFollowers(numFollowers + 1);
+      if (!(numFollowers === undefined)) {
+        if (isFollowing) {
+          setNumFollowers(numFollowers - 1);
+        } else {
+          setNumFollowers(numFollowers + 1);
+        }
       }
       setIsFollowing(!isFollowing);
     }

@@ -32,7 +32,7 @@ export default function ProfileContainer({ userData }) {
         setOldImage={setOldImage}
       />
       <UserSubData
-        username={userData.username}
+        userData={userData}
         numFollowers={numFollowers}
         setNumFollowers={setNumFollowers}
         numFollows={numFollows}

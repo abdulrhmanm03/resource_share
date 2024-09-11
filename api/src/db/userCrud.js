@@ -87,3 +87,23 @@ export async function isFollowing(user1, user2) {
 
   return await dbOps.get(query, [user1, user2]);
 }
+
+export async function getUserFollowers(user_id) {
+  const query = `
+    SELECT u.*
+    FROM users u JOIN follows f
+    ON u.id = f.follows_id
+    WHERE f.followed_id = ?`;
+
+  return dbOps.getAll(query, [user_id]);
+}
+
+export async function getUserFollowing(user_id) {
+  const query = `
+    SELECT u.*
+    FROM users u JOIN follows f
+    ON u.id = f.followed_id
+    WHERE f.follows_id = ?`;
+
+  return dbOps.getAll(query, [user_id]);
+}

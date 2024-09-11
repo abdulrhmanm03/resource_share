@@ -3,6 +3,8 @@ import {
   follow,
   getFollowData,
   getUserByUsername,
+  getUserFollowers,
+  getUserFollowing,
   isFollowing,
   unFollow,
   updateBio,
@@ -56,6 +58,30 @@ userRouter.post("/toggleFollow", async (req, res) => {
       await follow(user1, user2);
     }
     res.send("success");
+  } catch (err) {
+    console.log(err);
+    res.status(500);
+  }
+});
+
+userRouter.get("/getFollowers/:user_id", async (req, res) => {
+  const user_id = req.params.user_id;
+
+  try {
+    const followers = await getUserFollowers(user_id);
+    res.json(followers);
+  } catch (err) {
+    console.log(err);
+    res.status(500);
+  }
+});
+
+userRouter.get("/getFollowing/:user_id", async (req, res) => {
+  const user_id = req.params.user_id;
+
+  try {
+    const following = await getUserFollowing(user_id);
+    res.json(following);
   } catch (err) {
     console.log(err);
     res.status(500);
