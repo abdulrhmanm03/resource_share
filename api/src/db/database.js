@@ -3,11 +3,11 @@ import sqlite3 from "sqlite3";
 const db = new sqlite3.Database("database.db");
 
 db.run("PRAGMA foreign_keys = ON;", (err) => {
-  if (err) {
-    console.error("Failed to enable foreign keys:", err.message);
-  } else {
-    console.log("Foreign keys are enabled.");
-  }
+    if (err) {
+        console.error("Failed to enable foreign keys:", err.message);
+    } else {
+        console.log("Foreign keys are enabled.");
+    }
 });
 
 const createUserTable = `CREATE TABLE IF NOT EXISTS users (
@@ -58,12 +58,12 @@ const createBookmarksTable = `CREATE TABLE IF NOT EXISTS bookmarks (
 )`;
 
 db.serialize(() => {
-  db.run(createUserTable);
-  db.run(createPostsTable);
-  db.run(createTopicsTable);
-  db.run(createFollowsTable);
-  db.run(createLikesTable);
-  db.run(createBookmarksTable);
+    db.run(createUserTable);
+    db.run(createPostsTable);
+    db.run(createTopicsTable);
+    db.run(createFollowsTable);
+    db.run(createLikesTable);
+    db.run(createBookmarksTable);
 });
 
 export default db;

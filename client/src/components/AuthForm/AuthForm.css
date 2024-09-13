@@ -1,73 +1,73 @@
 .AuthFormDiv {
-  background-color: blanchedalmond;
-  padding: 20px 50px;
-  width: 60%;
-  max-width: 600px;
-  margin: 50px auto 15px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid burlywood;
+    background-color: blanchedalmond;
+    padding: 20px 50px;
+    width: 60%;
+    max-width: 600px;
+    margin: 50px auto 15px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid burlywood;
 }
 
 h1.auth {
-  margin-bottom: 50px;
-  font-size: 80px;
+    margin-bottom: 50px;
+    font-size: 80px;
 }
 
 @media (max-width: 600px) {
-  h1.auth {
-    font-size: 50px;
-  }
+    h1.auth {
+        font-size: 50px;
+    }
 }
 
 .AuthForm {
-  display: flex;
-  flex-direction: column;
-  height: 60%;
-  align-items: center;
-  margin: auto;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 60%;
+    align-items: center;
+    margin: auto;
+    width: 100%;
 }
 
 label.auth {
-  margin-right: auto;
-  margin-top: 20px;
+    margin-right: auto;
+    margin-top: 20px;
 }
 
 input.auth {
-  border: 0;
-  border-bottom: 1px solid black;
-  margin: 10px 0;
-  height: 40px;
-  padding: 5px;
-  width: 100%;
-  background-color: blanchedalmond;
+    border: 0;
+    border-bottom: 1px solid black;
+    margin: 10px 0;
+    height: 40px;
+    padding: 5px;
+    width: 100%;
+    background-color: blanchedalmond;
 }
 
 input:focus {
-  outline: none;
+    outline: none;
 }
 
 button.auth {
-  margin: 50px 0 25px 0;
-  padding: 10px 30px;
-  border-radius: 10px;
-  border: 0px;
-  background-color: burlywood;
+    margin: 50px 0 25px 0;
+    padding: 10px 30px;
+    border-radius: 10px;
+    border: 0px;
+    background-color: burlywood;
 }
 button.auth:hover {
-  background-color: rgb(233, 175, 99);
-  cursor: pointer;
+    background-color: rgb(233, 175, 99);
+    cursor: pointer;
 }
 
 .authLink {
-  text-decoration: none;
-  color: rgb(197, 155, 100);
+    text-decoration: none;
+    color: rgb(197, 155, 100);
 }
 
 .authLink:hover {
-  font-weight: bolder;
-  cursor: pointer;
+    font-weight: bolder;
+    cursor: pointer;
 }

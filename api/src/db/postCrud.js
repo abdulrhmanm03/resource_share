@@ -1,7 +1,7 @@
 import dbOps from "./dbOps.js";
 
 export async function getPost(post_id) {
-  const query = `
+    const query = `
     SELECT 
       p.*, 
       u.username, 
@@ -18,10 +18,10 @@ export async function getPost(post_id) {
       p.id, u.username
   `;
 
-  return await dbOps.get(query, [post_id]);
+    return await dbOps.get(query, [post_id]);
 }
 export async function getUserPosts(username) {
-  const query = `
+    const query = `
     SELECT 
       p.id, 
       p.title, 
@@ -42,11 +42,11 @@ export async function getUserPosts(username) {
     GROUP BY 
       p.id, p.title`;
 
-  return await dbOps.getAll(query, [username]);
+    return await dbOps.getAll(query, [username]);
 }
 
 export async function getPostsMeta() {
-  const query = `
+    const query = `
     SELECT 
       p.id, 
       p.title, 
@@ -65,11 +65,11 @@ export async function getPostsMeta() {
       users lu ON l.user_id = lu.id
     GROUP BY 
       p.id, p.title, u.username `;
-  return await dbOps.getAll(query, []);
+    return await dbOps.getAll(query, []);
 }
 
 export async function searchPosts(search) {
-  const query = `
+    const query = `
     SELECT 
       p.id, 
       p.title, 
@@ -97,83 +97,91 @@ export async function searchPosts(search) {
     GROUP BY 
       p.id, p.title, u.username`;
 
-  return await dbOps.getAll(query, [search, search, search]);
+    return await dbOps.getAll(query, [search, search, search]);
 }
 
 export async function createPost(user_id, title, topics, content) {
-  const createPostQuery = `INSERT INTO posts (user_id, title, content) VALUES (?, ?, ?)`;
-  const addTopicsQuery = `INSERT INTO topics (post_id, topic) VALUES (?, ?)`;
+    const createPostQuery = `INSERT INTO posts (user_id, title, content) VALUES (?, ?, ?)`;
+    const addTopicsQuery = `INSERT INTO topics (post_id, topic) VALUES (?, ?)`;
 
-  try {
-    await dbOps.runCommand("BEGIN TRANSACTION");
+    try {
+        await dbOps.runCommand("BEGIN TRANSACTION");
 
-    const post_id = await dbOps.run(createPostQuery, [user_id, title, content]);
+        const post_id = await dbOps.run(createPostQuery, [
+            user_id,
+            title,
+            content,
+        ]);
 
-    await Promise.all([
-      ...topics.map((topic) => dbOps.run(addTopicsQuery, [post_id, topic])),
-    ]);
+        await Promise.all([
+            ...topics.map((topic) =>
+                dbOps.run(addTopicsQuery, [post_id, topic]),
+            ),
+        ]);
 
-    await dbOps.runCommand("COMMIT");
-    return post_id;
-  } catch (err) {
-    await dbOps.runCommand("ROLLBACK");
-    throw err;
-  }
+        await dbOps.runCommand("COMMIT");
+        return post_id;
+    } catch (err) {
+        await dbOps.runCommand("ROLLBACK");
+        throw err;
+    }
 }
 
 export async function deletePost(post_id) {
-  const query = `DELETE FROM posts WHERE id = ?`;
-  return dbOps.run(query, [post_id]);
+    const query = `DELETE FROM posts WHERE id = ?`;
+    return dbOps.run(query, [post_id]);
 }
 
 export async function updatePost(post_id, title, topics, content) {
-  const updatePostQuery = `UPDATE posts SET title = ?, content = ? WHERE id = ?`;
-  const deleteTopicsQuery = `DELETE FROM topics WHERE post_id = ?`;
-  const addTopicsQuery = `INSERT INTO topics (post_id, topic) VALUES (?, ?)`;
+    const updatePostQuery = `UPDATE posts SET title = ?, content = ? WHERE id = ?`;
+    const deleteTopicsQuery = `DELETE FROM topics WHERE post_id = ?`;
+    const addTopicsQuery = `INSERT INTO topics (post_id, topic) VALUES (?, ?)`;
 
-  try {
-    await dbOps.runCommand("BEGIN TRANSACTION");
+    try {
+        await dbOps.runCommand("BEGIN TRANSACTION");
 
-    await dbOps.run(deleteTopicsQuery, [post_id]);
+        await dbOps.run(deleteTopicsQuery, [post_id]);
 
-    await Promise.all([
-      dbOps.run(updatePostQuery, [title, content, post_id]),
-      ...topics.map((topic) => dbOps.run(addTopicsQuery, [post_id, topic])),
-    ]);
+        await Promise.all([
+            dbOps.run(updatePostQuery, [title, content, post_id]),
+            ...topics.map((topic) =>
+                dbOps.run(addTopicsQuery, [post_id, topic]),
+            ),
+        ]);
 
-    await dbOps.runCommand("COMMIT");
-    return post_id;
-  } catch (err) {
-    await dbOps.runCommand("ROLLBACK");
-    throw err;
-  }
+        await dbOps.runCommand("COMMIT");
+        return post_id;
+    } catch (err) {
+        await dbOps.runCommand("ROLLBACK");
+        throw err;
+    }
 }
 
 export async function getPostLikesCount(post_id) {
-  const query = `SELECT count(*) FROM likes WHERE post_id = ?`;
+    const query = `SELECT count(*) FROM likes WHERE post_id = ?`;
 
-  return dbOps.get(query, [post_id]);
+    return dbOps.get(query, [post_id]);
 }
 
 export async function like(user_id, post_id) {
-  const query = `INSERT INTO likes (post_id, user_id) VALUES (?, ?)`;
+    const query = `INSERT INTO likes (post_id, user_id) VALUES (?, ?)`;
 
-  return await dbOps.run(query, [post_id, user_id]);
+    return await dbOps.run(query, [post_id, user_id]);
 }
 
 export async function unLike(user_id, post_id) {
-  const query = `DELETE FROM likes WHERE post_id = ? AND user_id = ?`;
+    const query = `DELETE FROM likes WHERE post_id = ? AND user_id = ?`;
 
-  return await dbOps.run(query, [post_id, user_id]);
+    return await dbOps.run(query, [post_id, user_id]);
 }
 
 export async function getUserPostCount(username) {
-  const query = `
+    const query = `
     SELECT COUNT(p.id) AS post_count
     FROM users u
     JOIN posts p ON u.id = p.user_id
     WHERE u.username = ?
     GROUP BY u.username`;
 
-  return await dbOps.get(query, [username]);
+    return await dbOps.get(query, [username]);
 }

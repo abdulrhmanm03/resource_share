@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./PostContainer.css";
+import styles from "./postContainer.module.css";
 import LikeButton from "./LikeButton";
 
 // TODO: add prop validation

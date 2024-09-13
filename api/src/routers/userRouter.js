@@ -1,14 +1,14 @@
 import express from "express";
 import {
-  follow,
-  getFollowData,
-  getUserByUsername,
-  getUserFollowers,
-  getUserFollowing,
-  isFollowing,
-  unFollow,
-  updateBio,
-  updateImage,
+    follow,
+    getFollowData,
+    getUserByUsername,
+    getUserFollowers,
+    getUserFollowing,
+    isFollowing,
+    unFollow,
+    updateBio,
+    updateImage,
 } from "../db/userCrud.js";
 import fileUpload from "express-fileupload";
 import { unlink } from "fs/promises";
@@ -18,109 +18,111 @@ const userRouter = express.Router();
 userRouter.use(fileUpload());
 
 userRouter.get("/users", async (req, res) => {
-  const users = await getAllUsers();
-  res.json(users);
+    const users = await getAllUsers();
+    res.json(users);
 });
 
 userRouter.get("/getUser/:username", async (req, res) => {
-  const username = req.params.username;
-  const profile_data = await getUserByUsername(username);
-  res.json(profile_data);
+    const username = req.params.username;
+    const profile_data = await getUserByUsername(username);
+    res.json(profile_data);
 });
 
 userRouter.get("/getFollowData/:username", async (req, res) => {
-  const username = req.params.username;
-  const follow_data = await getFollowData(username);
-  res.json(follow_data);
+    const username = req.params.username;
+    const follow_data = await getFollowData(username);
+    res.json(follow_data);
 });
 
 userRouter.get("/isFollowing", async (req, res) => {
-  const { user1, user2 } = req.query;
-  console.log(user1, user2, typeof user1);
+    const { user1, user2 } = req.query;
+    console.log(user1, user2, typeof user1);
 
-  try {
-    const following = await isFollowing(user1, user2);
-    console.log(following);
-    res.json(following);
-  } catch (err) {
-    console.log(err);
-    res.status(500);
-  }
+    try {
+        const following = await isFollowing(user1, user2);
+        console.log(following);
+        res.json(following);
+    } catch (err) {
+        console.log(err);
+        res.status(500);
+    }
 });
 
 userRouter.post("/toggleFollow", async (req, res) => {
-  const { user1, user2, isFollowing } = req.body;
+    const { user1, user2, isFollowing } = req.body;
 
-  try {
-    if (isFollowing) {
-      await unFollow(user1, user2);
-    } else {
-      await follow(user1, user2);
+    try {
+        if (isFollowing) {
+            await unFollow(user1, user2);
+        } else {
+            await follow(user1, user2);
+        }
+        res.send("success");
+    } catch (err) {
+        console.log(err);
+        res.status(500);
     }
-    res.send("success");
-  } catch (err) {
-    console.log(err);
-    res.status(500);
-  }
 });
 
 userRouter.get("/getFollowers/:user_id", async (req, res) => {
-  const user_id = req.params.user_id;
+    const user_id = req.params.user_id;
 
-  try {
-    const followers = await getUserFollowers(user_id);
-    res.json(followers);
-  } catch (err) {
-    console.log(err);
-    res.status(500);
-  }
+    try {
+        const followers = await getUserFollowers(user_id);
+        res.json(followers);
+    } catch (err) {
+        console.log(err);
+        res.status(500);
+    }
 });
 
 userRouter.get("/getFollowing/:user_id", async (req, res) => {
-  const user_id = req.params.user_id;
+    const user_id = req.params.user_id;
 
-  try {
-    const following = await getUserFollowing(user_id);
-    res.json(following);
-  } catch (err) {
-    console.log(err);
-    res.status(500);
-  }
+    try {
+        const following = await getUserFollowing(user_id);
+        res.json(following);
+    } catch (err) {
+        console.log(err);
+        res.status(500);
+    }
 });
 
 // TODO: authanticate user before allowing him to update a profile
 // BUG: user can't update bio without updating the image
 userRouter.put("/updateprofile", async (req, res) => {
-  const { user_id, bio, oldImage } = req.body;
-  console.log(bio);
+    const { user_id, bio, oldImage } = req.body;
+    console.log(bio);
 
-  if (!req.files || !req.files.image || !user_id) {
-    return res.status(400).send("No file uploaded.");
-  }
+    if (!req.files || !req.files.image || !user_id) {
+        return res.status(400).send("No file uploaded.");
+    }
 
-  try {
-    await unlink(`./uploads/${oldImage}`);
-    console.log(`Deleted ${oldImage}`);
-  } catch (error) {
-    console.error(`Got an error trying to delete the file: ${error.message}`);
-  }
+    try {
+        await unlink(`./uploads/${oldImage}`);
+        console.log(`Deleted ${oldImage}`);
+    } catch (error) {
+        console.error(
+            `Got an error trying to delete the file: ${error.message}`,
+        );
+    }
 
-  const image = req.files.image;
+    const image = req.files.image;
 
-  image.mv(`./uploads/${image.name}`, (err) => {
-    if (err) return res.status(500).send(err);
-  });
+    image.mv(`./uploads/${image.name}`, (err) => {
+        if (err) return res.status(500).send(err);
+    });
 
-  try {
-    await Promise.all([
-      updateImage(image.name, user_id),
-      updateBio(bio, user_id),
-    ]);
-    res.send("File uploaded!");
-  } catch (err) {
-    console.log(err);
-    return res.status(500).send(err);
-  }
+    try {
+        await Promise.all([
+            updateImage(image.name, user_id),
+            updateBio(bio, user_id),
+        ]);
+        res.send("File uploaded!");
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send(err);
+    }
 });
 
 export default userRouter;
