@@ -1,6 +1,7 @@
-import "./Navbar.css";
+import styles from "./navbar.module.css";
 import { NavLink, Link } from "react-router-dom";
 import { useRegistration } from "../../context/RegistrationContext";
+import Search from "./Search";
 
 // TODO: get user states
 function Navbar() {
@@ -15,32 +16,40 @@ function Navbar() {
   return (
     <nav>
       <Link to="/">
-        <img src="/logo.png" alt="logo" className="logo" />
+        <img src="/logo.png" alt="logo" className={styles.logo} />
       </Link>
 
-      <ul className="nav">
+      <Search />
+
+      <ul className={styles.nav}>
         {!isRegistered && (
-          <li className="nav">
-            <NavLink className="link nav" to="/auth">
+          <li className={styles.nav}>
+            <NavLink className={`${styles.link} ${styles.nav}`} to="/auth">
               Sign up
             </NavLink>
           </li>
         )}
         {isRegistered && (
           <>
-            <li className="nav">
-              <NavLink className="link nav" to={`/user/${username}`}>
+            <li className={styles.nav}>
+              <NavLink
+                className={`${styles.link} ${styles.nav}`}
+                to={`/user/${username}`}
+              >
                 Profile
               </NavLink>
             </li>
-            <li className="nav">
-              <NavLink className="link nav" to="/createPost">
+            <li className={styles.nav}>
+              <NavLink
+                className={`${styles.link} ${styles.nav}`}
+                to="/createPost"
+              >
                 Create post
               </NavLink>
             </li>
-            <li className="nav" onClick={() => handleSignOut()}>
-              <Link className="link nav" to="/">
-                Sign Out
+            <li className={styles.nav} onClick={() => handleSignOut()}>
+              <Link className={`${styles.link} ${styles.nav}`} to="/">
+                <i className="fa-solid fa-right-from-bracket"></i>
               </Link>
             </li>
           </>

@@ -3,7 +3,7 @@ import styles from "./postContainer.module.css";
 import LikeButton from "./LikeButton";
 
 // TODO: add prop validation
-function PostContainer({ posts }) {
+export default function PostContainer({ posts }) {
   const navigate = useNavigate();
 
   function openPost(post_id) {
@@ -16,25 +16,27 @@ function PostContainer({ posts }) {
   }
 
   return (
-    <div className="post">
-      <ul className="post">
+    <div className={styles.post}>
+      <ul className={styles.post}>
         {Object.keys(posts).map((i) => (
           <li
-            className="post"
+            className={styles.post}
             key={posts[i].id}
             onClick={() => openPost(posts[i].id)}
           >
             <div>
-              <h1 className="posttitle">{posts[i].title}</h1>
-              <p
-                className="postusername"
-                onClick={(e) => goToUser(e, posts[i].username)}
-              >
-                {posts[i].username}
-              </p>
+              <h1 className={styles.posttitle}>{posts[i].title}</h1>
+              {posts[i].username && (
+                <p
+                  className={styles.postusername}
+                  onClick={(e) => goToUser(e, posts[i].username)}
+                >
+                  by {posts[i].username}
+                </p>
+              )}
             </div>
-            <hr className="post" />
-            <p className="posttopics">{posts[i].topics}</p>
+            <hr className={styles.post} />
+            <p className={styles.posttopics}>{posts[i].topics}</p>
             <LikeButton post={posts[i]} />
           </li>
         ))}
@@ -42,5 +44,3 @@ function PostContainer({ posts }) {
     </div>
   );
 }
-
-export default PostContainer;

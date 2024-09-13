@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRegistration } from "../../context/RegistrationContext";
 import { useNavigate } from "react-router-dom";
+import styles from "./postContainer.module.css";
 
 export default function LikeButton({ post }) {
   const navigate = useNavigate();
@@ -49,17 +50,11 @@ export default function LikeButton({ post }) {
   }
 
   return (
-    <button
-      onClick={(e) => toggleLike(e)}
-      style={{
-        backgroundColor: isLiked ? "red" : "blue",
-        color: "black",
-        border: "none",
-        padding: "10px 20px",
-        cursor: "pointer",
-      }}
-    >
-      {isLiked ? "Unlike" : "Like"}
-    </button>
+    <>
+      <i
+        className={`${styles.postlikes} ${isLiked ? "fa-solid fa-heart" : "fa-regular fa-heart"}`}
+        onClick={toggleLike}
+      ></i>
+    </>
   );
 }

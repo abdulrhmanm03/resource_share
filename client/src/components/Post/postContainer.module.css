@@ -21,8 +21,22 @@ li.post {
     padding: 30px 10px;
 }
 
+li.post:hover {
+    cursor: pointer;
+}
+
 .posttitle {
-    margin: 5px 30px;
+    margin: 10px 30px;
+    margin-bottom: 20;
+}
+
+.postusername {
+    margin: 15px 45px;
+    width: fit-content;
+}
+
+.postusername:hover {
+    color: darkred;
 }
 
 hr.post {
@@ -35,11 +49,14 @@ hr.post {
 }
 
 .posttopics {
-    margin: 5px 40px;
+    margin: 5px 45px;
+    margin-bottom: 0;
 }
 
 .postlikes {
-    margin: 10px;
+    color: darkred;
+    font-size: 28px;
     margin-bottom: 0;
     margin-left: auto;
+    margin-right: 25px;
 }

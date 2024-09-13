@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from "./navbar.module.css";
 
 export default function Search() {
   const navigate = useNavigate();
@@ -36,15 +37,19 @@ export default function Search() {
   }
 
   return (
-    <>
+    <div className={styles.search}>
       <input
+        className={styles.searchinput}
         type="text"
         placeholder="Search"
         value={query}
         onChange={handleInputChange}
         onKeyDown={handleKeyPress}
       />
-      <button onClick={handleSubmit}>Submit</button>
-    </>
+      <i
+        className={`fa-solid fa-magnifying-glass ${styles.searchbutton}`}
+        onClick={handleSubmit}
+      ></i>
+    </div>
   );
 }
