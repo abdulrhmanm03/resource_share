@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import styles from "./profile.module.css";
 
 export default function UserSubData({
   userData,
@@ -35,22 +36,22 @@ export default function UserSubData({
   }, [userData]);
 
   return (
-    <div className="extra">
+    <div className={styles.subdatacontainer}>
       <Link
-        className="e"
+        className={`${styles.subdata} ${styles.followersandfollowing}`}
         to={`/${userData.username}/followers`}
         state={{ user_id: userData.id }}
       >
         {`${numFollowers} followers`}
       </Link>
       <Link
-        className="e"
+        className={`${styles.subdata} ${styles.followersandfollowing}`}
         to={`/${userData.username}/following`}
         state={{ user_id: userData.id }}
       >
         {`${numFollows} following`}
       </Link>
-      <h4 className="e">{`${numPosts} posts`} </h4>
+      <h4 className={styles.subdata}>{`${numPosts} posts`} </h4>
     </div>
   );
 }

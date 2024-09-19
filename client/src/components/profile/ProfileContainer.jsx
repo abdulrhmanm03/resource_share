@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./profile.css";
+import styles from "./profile.module.css";
 import EditButton from "./EditButton";
 import UserMainData from "./UserMainData";
 import UserSubData from "./UserSubData";
@@ -23,9 +23,8 @@ export default function ProfileContainer({ userData }) {
     }
   }, [user, userData]);
 
-  // TODO: allow only owner of the account to view the edit bottun
   return (
-    <div className="profile">
+    <div className={styles.profilecontainer}>
       <UserMainData
         userData={userData}
         editMode={editMode}
