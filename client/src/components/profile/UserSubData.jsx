@@ -6,8 +6,8 @@ export default function UserSubData({
   userData,
   numFollowers,
   setNumFollowers,
-  numFollows,
-  setNumFollows,
+  numFollowes,
+  setnumFollowes,
 }) {
   const [numPosts, setNumPosts] = useState(0);
 
@@ -17,7 +17,7 @@ export default function UserSubData({
     );
     console.log(response);
     const data = await response.json();
-    setNumFollows(data.numFollows);
+    setnumFollowes(data.numFollowes);
     setNumFollowers(data.numFollowers);
     console.log(data);
   }
@@ -49,7 +49,7 @@ export default function UserSubData({
         to={`/${userData.username}/following`}
         state={{ user_id: userData.id }}
       >
-        {`${numFollows} following`}
+        {`${numFollowes} following`}
       </Link>
       <h4 className={styles.subdata}>{`${numPosts} posts`} </h4>
     </div>

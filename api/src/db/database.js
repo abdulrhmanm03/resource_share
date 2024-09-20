@@ -33,11 +33,11 @@ const createTopicsTable = `CREATE TABLE IF NOT EXISTS topics (
         FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
     )`;
 
-const createFollowsTable = `CREATE TABLE IF NOT EXISTS follows (
-        follows_id INTEGER,
+const createfollowesTable = `CREATE TABLE IF NOT EXISTS followes (
+        followes_id INTEGER,
         followed_id INTEGER,
         timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (follows_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (followes_id) REFERENCES users(id) ON DELETE CASCADE,
         FOREIGN KEY (followed_id) REFERENCES users(id) ON DELETE CASCADE
     )`;
 
@@ -61,7 +61,7 @@ db.serialize(() => {
     db.run(createUserTable);
     db.run(createPostsTable);
     db.run(createTopicsTable);
-    db.run(createFollowsTable);
+    db.run(createfollowesTable);
     db.run(createLikesTable);
     db.run(createBookmarksTable);
 });

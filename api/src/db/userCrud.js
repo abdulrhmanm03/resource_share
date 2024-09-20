@@ -35,8 +35,8 @@ export async function getAllUsers() {
 export async function getFollowData(username) {
     const query = `
       SELECT 
-        (SELECT COUNT(*) FROM follows WHERE follows_id = u.id) AS numFollows,
-        (SELECT COUNT(*) FROM follows WHERE followed_id = u.id) AS numFollowers
+        (SELECT COUNT(*) FROM followes WHERE followes_id = u.id) AS numFollowes,
+        (SELECT COUNT(*) FROM followes WHERE followed_id = u.id) AS numFollowers
       FROM users u 
       WHERE u.username = ?`;
 
@@ -64,24 +64,24 @@ export async function getUserLikes(user_id) {
     return await dbOps.getAll(query, [user_id]);
 }
 
-export async function follow(follows_id, followed_id) {
-    const query = `INSERT INTO follows (follows_id, followed_id) VALUES (?, ?)`;
+export async function follow(followes_id, followed_id) {
+    const query = `INSERT INTO followes (followes_id, followed_id) VALUES (?, ?)`;
 
-    return await dbOps.run(query, [follows_id, followed_id]);
+    return await dbOps.run(query, [followes_id, followed_id]);
 }
 
-export async function unFollow(follows_id, followed_id) {
-    const query = `DELETE from follows WHERE follows_id = ? AND followed_id = ?`;
+export async function unFollow(followes_id, followed_id) {
+    const query = `DELETE from followes WHERE followes_id = ? AND followed_id = ?`;
 
-    return await dbOps.run(query, [follows_id, followed_id]);
+    return await dbOps.run(query, [followes_id, followed_id]);
 }
 
 export async function isFollowing(user1, user2) {
     const query = `
     SELECT EXISTS (
         SELECT 1 
-        FROM follows 
-        WHERE follows_id = ? 
+        FROM followes 
+        WHERE followes_id = ? 
         AND followed_id = ?
     ) AS isFollowing`;
 
@@ -91,8 +91,8 @@ export async function isFollowing(user1, user2) {
 export async function getUserFollowers(user_id) {
     const query = `
     SELECT u.*
-    FROM users u JOIN follows f
-    ON u.id = f.follows_id
+    FROM users u JOIN followes f
+    ON u.id = f.followes_id
     WHERE f.followed_id = ?`;
 
     return dbOps.getAll(query, [user_id]);
@@ -101,9 +101,9 @@ export async function getUserFollowers(user_id) {
 export async function getUserFollowing(user_id) {
     const query = `
     SELECT u.*
-    FROM users u JOIN follows f
+    FROM users u JOIN followes f
     ON u.id = f.followed_id
-    WHERE f.follows_id = ?`;
+    WHERE f.followes_id = ?`;
 
     return dbOps.getAll(query, [user_id]);
 }

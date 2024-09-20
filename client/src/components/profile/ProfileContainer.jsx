@@ -15,7 +15,7 @@ export default function ProfileContainer({ userData }) {
   const [isUserProfile, setIsUserProfile] = useState(false);
 
   const [numFollowers, setNumFollowers] = useState(3);
-  const [numFollows, setNumFollows] = useState(4);
+  const [numFollowes, setnumFollowes] = useState(4);
 
   useEffect(() => {
     if (user?.id && userData?.id) {
@@ -34,8 +34,8 @@ export default function ProfileContainer({ userData }) {
         userData={userData}
         numFollowers={numFollowers}
         setNumFollowers={setNumFollowers}
-        numFollows={numFollows}
-        setNumFollows={setNumFollows}
+        numFollowes={numFollowes}
+        setnumFollowes={setnumFollowes}
       />
       {isUserProfile ? (
         <EditButton
