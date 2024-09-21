@@ -10,6 +10,7 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import DeletePostButton from "./DeletePostButton";
+import styles from "./postPage.module.css";
 
 export default function FullPost({ post_id }) {
   const [title, setTitle] = useState("");
@@ -32,15 +33,18 @@ export default function FullPost({ post_id }) {
     getpost(post_id);
   }, [post_id]);
   return (
-    <div>
-      <h1>{title}</h1>
-      <p>{owner}</p>
-      <p>{lastUpdated}</p>
-      <p>{topics}</p>
+    <div className={styles.postcontainer}>
+      <div className={styles.maindata}>
+        <h1 className={styles.title}>{title}</h1>
+        <p className={styles.username}>by {owner}</p>
+        <p className={styles.lastupdated}>{lastUpdated}</p>
+      </div>
+      <p className={styles.topics}>{topics}</p>
       <ul>
         {Object.keys(content).map((i) => (
-          <li key={i}>
-            <h4>{content[i].name}</h4> <a>{content[i].link}</a>
+          <li key={i} className={styles.subject}>
+            <h3 className={styles.subjecttitle}>{content[i].name}</h3>
+            <a className={styles.subjecturl}>{content[i].link}</a>
           </li>
         ))}
       </ul>

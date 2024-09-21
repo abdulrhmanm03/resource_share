@@ -1,0 +1,52 @@
+.postcontainer {
+    margin: auto;
+    margin-top: 50px;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+
+.maindata {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    border-bottom: 1px solid burlywood;
+}
+
+.title {
+    margin: 20px 30px;
+}
+
+.username {
+    margin: 30px;
+    margin-top: 40px;
+    font-weight: bold;
+}
+
+.lastupdated {
+    margin-top: 40px;
+}
+
+.topics {
+    margin: 50px;
+    margin-top: 10px;
+}
+
+.subject {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.subjecttitle {
+    margin: 10px;
+}
+
+.subjecturl {
+    color: rgba(128, 128, 128, 0.6);
+}
+
+.button {
+    margin: 50px;
+    width: 120px;
+}
