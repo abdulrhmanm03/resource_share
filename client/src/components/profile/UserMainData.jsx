@@ -32,7 +32,7 @@ export default function UserMainData({ userData, editMode, setOldImage }) {
         </div>
         <h2 className={styles.username}>{userData.username}</h2>
       </div>
-      <div className={styles.bio}>
+      <div className={styles.biocontainer}>
         {editMode ? (
           <textarea
             className={styles.editbio}
@@ -40,7 +40,7 @@ export default function UserMainData({ userData, editMode, setOldImage }) {
             value={userData.bio || ""}
           ></textarea>
         ) : (
-          <p>{userData.bio}</p>
+          <p className={styles.bio}>{userData.bio}</p>
         )}
       </div>
     </>

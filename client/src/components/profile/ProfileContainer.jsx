@@ -30,27 +30,31 @@ export default function ProfileContainer({ userData }) {
         editMode={editMode}
         setOldImage={setOldImage}
       />
-      <UserSubData
-        userData={userData}
-        numFollowers={numFollowers}
-        setNumFollowers={setNumFollowers}
-        numFollowes={numFollowes}
-        setnumFollowes={setnumFollowes}
-      />
-      {isUserProfile ? (
-        <EditButton
-          editMode={editMode}
-          setEditMode={setEditMode}
-          userData={userData}
-          oldImage={oldImage}
-        />
-      ) : (
-        <FollowButton
-          userData={userData}
-          numFollowers={numFollowers}
-          setNumFollowers={setNumFollowers}
-        />
-      )}
+      <div className={styles.subdatacontainer}>
+        {!editMode && (
+          <UserSubData
+            userData={userData}
+            numFollowers={numFollowers}
+            setNumFollowers={setNumFollowers}
+            numFollowes={numFollowes}
+            setnumFollowes={setnumFollowes}
+          />
+        )}
+        {isUserProfile ? (
+          <EditButton
+            editMode={editMode}
+            setEditMode={setEditMode}
+            userData={userData}
+            oldImage={oldImage}
+          />
+        ) : (
+          <FollowButton
+            userData={userData}
+            numFollowers={numFollowers}
+            setNumFollowers={setNumFollowers}
+          />
+        )}
+      </div>
     </div>
   );
 }

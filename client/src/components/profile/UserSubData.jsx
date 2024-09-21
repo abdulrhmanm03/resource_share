@@ -36,7 +36,7 @@ export default function UserSubData({
   }, [userData]);
 
   return (
-    <div className={styles.subdatacontainer}>
+    <>
       <Link
         className={`${styles.subdata} ${styles.followersandfollowing}`}
         to={`/${userData.username}/followers`}
@@ -52,6 +52,6 @@ export default function UserSubData({
         {`${numFollowes} following`}
       </Link>
       <h4 className={styles.subdata}>{`${numPosts} posts`} </h4>
-    </div>
+    </>
   );
 }

@@ -21,5 +21,10 @@ export default function EditButton({
       setEditMode(true);
     }
   }
-  return <button onClick={handleClick}>{editMode ? "Save" : "edit"}</button>;
+  return (
+    <>
+      <button onClick={handleClick}>{editMode ? "Save" : "edit"}</button>
+      {editMode && <button onClick={() => setEditMode(false)}>cancel</button>}
+    </>
+  );
 }
