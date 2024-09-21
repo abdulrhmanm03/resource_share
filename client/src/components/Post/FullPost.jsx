@@ -1,28 +1,28 @@
-// NOTE: user should see all the info about the post
-// - titel
-// - topics
-// - links
-// - comments
-// - owner
-// - likes count
-// - time posted and updated
-
+// TODO: add like button
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { useRegistration } from "../../context/RegistrationContext";
 import DeletePostButton from "./DeletePostButton";
 import styles from "./postPage.module.css";
 
 export default function FullPost({ post_id }) {
+  const { user } = useRegistration();
+
   const [title, setTitle] = useState("");
   const [owner, setOwner] = useState("");
   const [lastUpdated, setLastUpdated] = useState("");
   const [topics, setTopics] = useState("");
   const [content, setContent] = useState({});
 
+  const [isUserPost, setIsUserPost] = useState(false);
+
   useEffect(() => {
     async function getpost(post_id) {
       const response = await fetch(`http://localhost:3001/getPost/${post_id}`);
       const res = await response.json();
+      if (res.username == user.username) {
+        setIsUserPost(true);
+      }
       setTitle(res.title);
       setOwner(res.username);
       setLastUpdated(res.timestamp);
@@ -31,7 +31,7 @@ export default function FullPost({ post_id }) {
       console.log(res);
     }
     getpost(post_id);
-  }, [post_id]);
+  }, [post_id, user]);
   return (
     <div className={styles.postcontainer}>
       <div className={styles.maindata}>
@@ -48,7 +48,7 @@ export default function FullPost({ post_id }) {
           </li>
         ))}
       </ul>
-      <DeletePostButton post_id={post_id} />
+      {isUserPost && <DeletePostButton post_id={post_id} />}
     </div>
   );
 }
