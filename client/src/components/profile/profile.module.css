@@ -82,8 +82,8 @@
 
 .editbio {
     all: unset;
-    min-width: 300px;
-    min-height: 100px;
+    min-width: 400px;
+    min-height: 170px;
     padding: 20px;
     border-radius: 5px;
     border: solid 1px burlywood;
