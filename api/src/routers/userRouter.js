@@ -17,11 +17,13 @@ const userRouter = express.Router();
 
 userRouter.use(fileUpload());
 
+// TODO: add error handling
 userRouter.get("/users", async (req, res) => {
     const users = await getAllUsers();
     res.json(users);
 });
 
+// TODO: add error handling
 userRouter.get("/getUser/:username", async (req, res) => {
     const username = req.params.username;
     const profile_data = await getUserByUsername(username);
@@ -30,8 +32,13 @@ userRouter.get("/getUser/:username", async (req, res) => {
 
 userRouter.get("/getFollowData/:username", async (req, res) => {
     const username = req.params.username;
-    const follow_data = await getFollowData(username);
-    res.json(follow_data);
+    try {
+        const followData = await getFollowData(username);
+        res.json(followData);
+    } catch (err) {
+        console.log(err);
+        res.status(500);
+    }
 });
 
 userRouter.get("/isFollowing", async (req, res) => {

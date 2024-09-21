@@ -6,6 +6,7 @@ import authenticateJWT from "../middleware/authenticateJWT.js";
 
 const authRouter = express.Router();
 
+// TODO: add error handling
 authRouter.post("/register", async (req, res) => {
     const { username, email, password } = req.body;
     const hashedPassword = await hashPassword(password);

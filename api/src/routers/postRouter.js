@@ -11,7 +11,6 @@ import {
     unLike,
 } from "../db/postCrud.js";
 import { stringToWords } from "../utils/utils.js";
-import { getFollowData } from "../db/userCrud.js";
 // import authenticateJWT from "../middleware/authenticateJWT.js";
 
 const postRouter = express.Router();
@@ -39,6 +38,7 @@ postRouter.post("/createPost", async (req, res) => {
     }
 });
 
+// TODO: check if the user have the premesion to delete the post
 postRouter.delete("/deletePost", async (req, res) => {
     const { post_id } = req.body;
     console.log(post_id);
@@ -62,6 +62,7 @@ postRouter.get("/getPosts", async (req, res) => {
     }
 });
 
+// TODO: add error handling
 postRouter.get("/getUserPosts/:username", async (req, res) => {
     const username = req.params.username;
     const posts = await getUserPosts(username);
@@ -73,18 +74,6 @@ postRouter.get("/searchPost/:query", async (req, res) => {
     try {
         const results = await searchPosts(query);
         res.json(results);
-    } catch (err) {
-        console.log(err);
-        res.status(500);
-    }
-});
-
-// TODO: move this to the user router how did it come here
-postRouter.get("/getFollowData/:username", async (req, res) => {
-    const username = req.params.username;
-    try {
-        const followData = await getFollowData(username);
-        res.json(followData);
     } catch (err) {
         console.log(err);
         res.status(500);

@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 
+// TODO: fix this
 export const JWT_SECRET = "jwt_secret";
 
 export function createJWT(id, username, email) {
