@@ -1,11 +1,11 @@
 // TODO: add like button
 import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { useRegistration } from "../../context/RegistrationContext";
 import DeletePostButton from "./DeletePostButton";
 import styles from "./postPage.module.css";
+import LikeButton from "./LikeButton";
 
-export default function FullPost({ post_id }) {
+export default function FullPost({ post }) {
   const { user } = useRegistration();
 
   const [title, setTitle] = useState("");
@@ -30,8 +30,8 @@ export default function FullPost({ post_id }) {
       setContent(JSON.parse(res.content));
       console.log(res);
     }
-    getpost(post_id);
-  }, [post_id, user]);
+    getpost(post.id);
+  }, [post.id, user]);
   return (
     <div className={styles.postcontainer}>
       <div className={styles.maindata}>
@@ -48,11 +48,8 @@ export default function FullPost({ post_id }) {
           </li>
         ))}
       </ul>
-      {isUserPost && <DeletePostButton post_id={post_id} />}
+      {isUserPost && <DeletePostButton post_id={post.id} />}
+      <LikeButton post={post} />
     </div>
   );
 }
-
-FullPost.propTypes = {
-  post_id: PropTypes.string.isRequired, // Specify the expected type and whether it is required
-};

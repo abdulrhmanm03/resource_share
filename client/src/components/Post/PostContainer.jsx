@@ -6,8 +6,8 @@ import LikeButton from "./LikeButton";
 export default function PostContainer({ posts }) {
   const navigate = useNavigate();
 
-  function openPost(post_id) {
-    navigate(`/post/${post_id}`);
+  function openPost(post) {
+    navigate(`/post/${post.id}`, { state: post });
   }
 
   function goToUser(e, username) {
@@ -22,7 +22,7 @@ export default function PostContainer({ posts }) {
           <li
             className={styles.post}
             key={posts[i].id}
-            onClick={() => openPost(posts[i].id)}
+            onClick={() => openPost(posts[i])}
           >
             <div>
               <h1 className={styles.posttitle}>{posts[i].title}</h1>
