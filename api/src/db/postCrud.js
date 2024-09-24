@@ -50,8 +50,7 @@ export async function getUserPosts(username) {
 export async function getPostsMeta() {
     const query = `
     SELECT 
-      p.id, 
-      p.title, 
+      p.*, 
       u.username,
       (SELECT GROUP_CONCAT(DISTINCT t.topic ORDER BY t.topic ASC, ', ')
        FROM topics t WHERE t.post_id = p.id) AS topics,

@@ -1,4 +1,3 @@
-// TODO: add like button
 import { useEffect, useState } from "react";
 import { useRegistration } from "../../context/RegistrationContext";
 import DeletePostButton from "./DeletePostButton";
@@ -17,21 +16,16 @@ export default function FullPost({ post }) {
   const [isUserPost, setIsUserPost] = useState(false);
 
   useEffect(() => {
-    async function getpost(post_id) {
-      const response = await fetch(`http://localhost:3001/getPost/${post_id}`);
-      const res = await response.json();
-      if (res.username == user.username) {
-        setIsUserPost(true);
-      }
-      setTitle(res.title);
-      setOwner(res.username);
-      setLastUpdated(res.timestamp);
-      setTopics(res.topics);
-      setContent(JSON.parse(res.content));
-      console.log(res);
+    if (post.username == user.username) {
+      setIsUserPost(true);
     }
-    getpost(post.id);
-  }, [post.id, user]);
+
+    setTitle(post.title);
+    setOwner(post.username);
+    setLastUpdated(post.timestamp);
+    setTopics(post.topics);
+    setContent(JSON.parse(post.content));
+  }, [post, user]);
   return (
     <div className={styles.postcontainer}>
       <div className={styles.maindata}>
@@ -48,8 +42,8 @@ export default function FullPost({ post }) {
           </li>
         ))}
       </ul>
-      {isUserPost && <DeletePostButton post_id={post.id} />}
       <LikeButton post={post} />
+      {isUserPost && <DeletePostButton post_id={post.id} />}
     </div>
   );
 }
