@@ -36,9 +36,16 @@ export default function FullPost({ post }) {
       <p className={styles.topics}>{topics}</p>
       <ul>
         {Object.keys(content).map((i) => (
-          <li key={i} className={styles.subject}>
-            <h3 className={styles.subjecttitle}>{content[i].name}</h3>
-            <a className={styles.subjecturl}>{content[i].link}</a>
+          <li key={i} className={styles.subjectcontainer}>
+            <a
+              href={content[i].link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.subjectcontainer}
+            >
+              <h3 className={styles.subjecttitle}>{content[i].name}</h3>
+              <a className={styles.subjecturl}>{content[i].link}</a>
+            </a>
           </li>
         ))}
       </ul>

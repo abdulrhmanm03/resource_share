@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./createpost.css";
 import { useRegistration } from "../../context/RegistrationContext";
+import validator from "validator";
 
 function CreatePost() {
   const navigateTo = useNavigate();
@@ -41,6 +42,10 @@ function CreatePost() {
   async function handleSubmit() {
     let c = {};
     for (let i = 0; i < content.length; i++) {
+      if (!validator.isURL(content[i].link, { require_protocol: true })) {
+        alert("make sure the links are valid");
+        return 0;
+      }
       c[i] = content[i];
     }
     let contentJson = JSON.stringify(c);

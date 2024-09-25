@@ -32,18 +32,29 @@
     margin-top: 10px;
 }
 
-.subject {
+li.subjectcontainer {
+    all: unset;
+    width: fit-content;
+}
+
+a.subjectcontainer {
+    all: unset;
     display: flex;
     align-items: center;
     margin-bottom: 30px;
+    width: fit-content;
+}
+
+a.subjectcontainer:hover {
+    cursor: pointer;
 }
 
 .subjecttitle {
-    margin: 10px;
+    margin: 25px;
 }
 
 .subjecturl {
-    color: rgba(128, 128, 128, 0.6);
+    color: rgba(128, 128, 128, 0.4);
 }
 
 .button {
