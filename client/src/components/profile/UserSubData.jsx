@@ -24,7 +24,7 @@ export default function UserSubData({
 
   async function getPostCount() {
     const response = await fetch(
-      `http://localhost:3001/getPostCount/${userData.username}`,
+      `http://localhost:3001/getPostCount/${userData.id}`,
     );
     const data = await response.json();
     setNumPosts(data.post_count);
