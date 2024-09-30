@@ -176,14 +176,14 @@ export async function unLike(user_id, post_id) {
     return await dbOps.run(query, [post_id, user_id]);
 }
 
-// TODO: change the query to be based on the user id instead of username
-export async function getUserPostCount(username) {
-    const query = `
-    SELECT COUNT(p.id) AS post_count
-    FROM users u
-    JOIN posts p ON u.id = p.user_id
-    WHERE u.username = ?
-    GROUP BY u.username`;
+export async function getUserPostCount(user_id) {
+    const query = `SELECT COUNT(*) as post_count FROM posts WHERE user_id = ?`;
 
-    return await dbOps.get(query, [username]);
+    return await dbOps.get(query, [user_id]);
+}
+
+export async function getPostUser(post_id) {
+    const query = `SELECT user_id FROM posts WHERE id = ?`;
+
+    return await dbOps.get(query, [post_id]);
 }

@@ -4,6 +4,7 @@ import {
     deletePost,
     getPost,
     getPostsMeta,
+    getPostUser,
     getUserPostCount,
     getUserPosts,
     like,
@@ -11,6 +12,7 @@ import {
     unLike,
 } from "../db/postCrud.js";
 import { stringToWords } from "../utils/utils.js";
+import authenticateJWT from "../middleware/authenticateJWT.js";
 // import authenticateJWT from "../middleware/authenticateJWT.js";
 
 const postRouter = express.Router();
@@ -38,16 +40,19 @@ postRouter.post("/createPost", async (req, res) => {
     }
 });
 
-// TODO: check if the user have the premesion to delete the post
-postRouter.delete("/deletePost", async (req, res) => {
+postRouter.delete("/deletePost", authenticateJWT, async (req, res) => {
     const { post_id } = req.body;
-    console.log(post_id);
-
+    const user_id = req.user.id;
+    const post_user_id = await getPostUser(post_id);
     try {
-        await deletePost(post_id);
+        if (user_id == post_user_id) {
+            await deletePost(post_id);
 
-        res.send("Post deleted");
-    } catch (err) {
+            res.send("Post deleted");
+        } else {
+            res.status(401).send("Unauthorized");
+        }
+    } catch {
         console.error(err);
         res.status(500).send(err.message);
     }
@@ -80,10 +85,10 @@ postRouter.get("/searchPost/:query", async (req, res) => {
     }
 });
 
-postRouter.get("/getPostCount/:username", async (req, res) => {
-    const username = req.params.username;
+postRouter.get("/getPostCount/:user_id", async (req, res) => {
+    const user_id = req.params.user_id;
     try {
-        const post_count = await getUserPostCount(username);
+        const post_count = await getUserPostCount(user_id);
         res.json(post_count);
     } catch (err) {
         console.log(err);
