@@ -21,7 +21,7 @@ export default function UserContainer({ userMeta }) {
           onClick={() => navigate(`/user/${user_i.username}`)}
         >
           <img
-            src={ImageSrc + user.image}
+            src={ImageSrc + user_i.image}
             alt=""
             className={styles.profileimg}
           />
