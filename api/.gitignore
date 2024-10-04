@@ -1,6 +1,6 @@
 #dadabase
-.db
-.sqlite3
+*.db
+*.sqlite3
 
 #uploads folder
 uploads

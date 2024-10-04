@@ -12,10 +12,17 @@ export default function EditButton({
       formData.append("oldImage", oldImage);
       formData.append("image", userData.image);
 
+      const token = localStorage.getItem("token");
       const response = await fetch("http://localhost:3001/updateprofile", {
         method: "PUT",
         body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`, // Add the token in the Authorization header
+        },
       });
+      if (!response.ok) {
+        alert("failed to updateprofile");
+      }
       setEditMode(false);
     } else {
       setEditMode(true);

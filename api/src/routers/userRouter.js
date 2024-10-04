@@ -12,6 +12,7 @@ import {
 } from "../db/userCrud.js";
 import fileUpload from "express-fileupload";
 import { unlink } from "fs/promises";
+import authenticateJWT from "../middleware/authenticateJWT.js";
 
 const userRouter = express.Router();
 
@@ -97,35 +98,41 @@ userRouter.get("/getFollowing/:user_id", async (req, res) => {
 
 // TODO: authanticate user before allowing him to update a profile
 // BUG: user can't update bio without updating the image
-userRouter.put("/updateprofile", async (req, res) => {
+userRouter.put("/updateprofile", authenticateJWT, async (req, res) => {
+    const { user } = req;
     const { user_id, bio, oldImage } = req.body;
-    console.log(bio);
-
-    if (!req.files || !req.files.image || !user_id) {
-        return res.status(400).send("No file uploaded.");
+    if (user.id != user_id) {
+        return res.status(401).send("UNAUTHORIZED");
     }
 
-    try {
-        await unlink(`./uploads/${oldImage}`);
-        console.log(`Deleted ${oldImage}`);
-    } catch (error) {
-        console.error(
-            `Got an error trying to delete the file: ${error.message}`,
-        );
+    if (bio) {
+        await updateBio(bio, user_id);
+    }
+
+    if (!req.files || !req.files.image) {
+        return res.send("profile updated!");
+    }
+
+    if (oldImage != "defaultImage.png") {
+        try {
+            await unlink(`./uploads/${oldImage}`);
+            console.log(`Deleted ${oldImage}`);
+        } catch (error) {
+            console.error(
+                `Got an error trying to delete the file: ${error.message}`,
+            );
+        }
     }
 
     const image = req.files.image;
-
-    image.mv(`./uploads/${image.name}`, (err) => {
+    const image_name = `${image.name}_${user_id}`;
+    image.mv(`./uploads/${image_name}`, (err) => {
         if (err) return res.status(500).send(err);
     });
 
     try {
-        await Promise.all([
-            updateImage(image.name, user_id),
-            updateBio(bio, user_id),
-        ]);
-        res.send("File uploaded!");
+        await updateImage(image_name, user_id);
+        res.send("profile updated!");
     } catch (err) {
         console.log(err);
         return res.status(500).send(err);

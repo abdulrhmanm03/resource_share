@@ -16,7 +16,7 @@ function Navbar() {
   return (
     <nav>
       <Link to="/">
-        <img src="/logo.png" alt="logo" className={styles.logo} />
+        <img src="/home.svg" alt="logo" className={styles.logo} />
       </Link>
 
       <Search />
