@@ -22,11 +22,11 @@ export async function getPost(post_id) {
 }
 
 // TODO: change the query to be based on the user id instead of username
-export async function getUserPosts(username) {
+export async function getUserPosts(post_id) {
     const query = `
     SELECT 
-      p.id, 
-      p.title, 
+      p.*, 
+      u.username,
       (SELECT GROUP_CONCAT(DISTINCT t.topic ORDER BY t.topic ASC, ', ')
        FROM topics t WHERE t.post_id = p.id) AS topics,
       COUNT(DISTINCT l.user_id) AS like_count,
@@ -42,9 +42,9 @@ export async function getUserPosts(username) {
     WHERE 
       u.username = ?
     GROUP BY 
-      p.id, p.title`;
+      p.id, p.title, u.username`;
 
-    return await dbOps.getAll(query, [username]);
+    return await dbOps.getAll(query, [post_id]);
 }
 
 export async function getPostsMeta() {

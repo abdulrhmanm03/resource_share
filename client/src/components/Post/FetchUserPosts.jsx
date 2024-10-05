@@ -13,7 +13,7 @@ export default function FetchUserPosts({ username }) {
     }
 
     getposts();
-  }, []);
+  }, [username]);
 
   return <PostContainer posts={posts} />;
 }

@@ -9,7 +9,6 @@ export default function FetchPosts() {
       const response = await fetch(`http://localhost:3001/getPosts`);
       const res = await response.json();
       setPosts(res);
-      console.log(res);
     }
 
     getposts();
