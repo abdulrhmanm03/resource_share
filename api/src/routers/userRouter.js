@@ -96,8 +96,6 @@ userRouter.get("/getFollowing/:user_id", async (req, res) => {
     }
 });
 
-// TODO: authanticate user before allowing him to update a profile
-// BUG: user can't update bio without updating the image
 userRouter.put("/updateprofile", authenticateJWT, async (req, res) => {
     const { user } = req;
     const { user_id, bio, oldImage } = req.body;
