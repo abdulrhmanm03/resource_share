@@ -183,7 +183,7 @@ export async function getUserPostCount(user_id) {
 }
 
 export async function getPostUser(post_id) {
-    const query = `SELECT user_id FROM posts WHERE id = ?`;
+    const query = `SELECT user_id AS post_owner_id FROM posts WHERE id = ?`;
 
     return await dbOps.get(query, [post_id]);
 }

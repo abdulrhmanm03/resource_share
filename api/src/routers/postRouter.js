@@ -13,7 +13,6 @@ import {
 } from "../db/postCrud.js";
 import { stringToWords } from "../utils/utils.js";
 import authenticateJWT from "../middleware/authenticateJWT.js";
-// import authenticateJWT from "../middleware/authenticateJWT.js";
 
 const postRouter = express.Router();
 
@@ -43,16 +42,16 @@ postRouter.post("/createPost", async (req, res) => {
 postRouter.delete("/deletePost", authenticateJWT, async (req, res) => {
     const { post_id } = req.body;
     const user_id = req.user.id;
-    const post_user_id = await getPostUser(post_id);
+    const { post_owner_id } = await getPostUser(post_id);
     try {
-        if (user_id == post_user_id) {
+        if (user_id == post_owner_id) {
             await deletePost(post_id);
 
             res.send("Post deleted");
         } else {
             res.status(401).send("Unauthorized");
         }
-    } catch {
+    } catch (err) {
         console.error(err);
         res.status(500).send(err.message);
     }
